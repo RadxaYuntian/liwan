@@ -1,0 +1,91 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "radxa,rockpi4c", "radxa,rockpi4", "rockchip,rk3399";
+
+	fragment@0 {
+		target = <&spi5>;
+
+		__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&spi5_clk &spi5_tx &spi5_rx &spi5_cs0>;
+
+			flash: is6xwvs5128@0 {
+				#address-cells = <1>;
+				#size-cells = <1>;
+				compatible = "issi,62wvs5128fbll";
+				reg = <0>;
+				rt = "true";
+				spi-cpol;
+				spi-cpha;
+				spi-max-frequency = <45000000>;
+				spi-max-write-frequency = <45000000>;
+				spi-max-read-frequency = <45000000>;
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&i2c7>;
+
+		__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&i2c7_xfer>;
+
+			eeprom@52 {
+				compatible = "microchip,24cm02", "atmel,24c02";
+				status = "okay";
+				reg = <0x52>;
+			};
+		};
+	};
+
+	fragment@2 {
+		target = <&i2c2>;
+
+		__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&i2c2_xfer>;
+
+			rtc@68 {
+				compatible = "dallas,ds1337";
+				status = "okay";
+				reg = <0x68>;
+			};
+		};
+	};
+
+	fragment@3 {
+		target = <&uart0>;
+
+		__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>;
+		};
+	};
+
+	fragment@4 {
+		target = <&uart2>;
+
+		__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&uart2c_xfer>;
+		};
+	};
+
+	fragment@5 {
+		target = <&uart4>;
+
+		__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&uart4_xfer>;
+		};
+	};
+};
